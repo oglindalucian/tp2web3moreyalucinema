@@ -13,10 +13,10 @@ echo "			  </li>\n";
 
 echo "			  <div class=\"multipleOptions\"><li class=\"dropdown\" class=\"nav-item\" ><a class=\"dropdown-toggle\" data-toggle=\"dropdown\" class=\"nav-link\" href=\"#\">Catégories <span class=\"caret\"></span></a>\n"; 
 echo "				 <ul class=\"dropdown-menu\">\n"; 
-echo "					<li class=\"nav-item\"><a href=\"#\" onClick=\"rendreVisible('divEnregCateg'); rendreInvisible('lesFilms'); rendreInvisible('divFicheCateg'); rendreInvisible('divEnleverCateg'); rendreInvisible('foot');\">Enregistrer</a></li>\n"; 
+//echo "					<li class=\"nav-item\"><a href=\"#\" onClick=\"rendreVisible('divEnregCateg'); rendreInvisible('lesFilms'); rendreInvisible('divFicheCateg'); rendreInvisible('divEnleverCateg'); rendreInvisible('foot');\">Enregistrer</a></li>\n"; 
 echo "					<li class=\"nav-item\"><a href=\"#\" onClick=\"listerCateg(); rendreInvisible('lesFilms');\" >Lister</a></li>\n"; 
 echo "					<li class=\"nav-item\"><a href=\"#\" onClick=\"rendreVisible('divFicheCateg'); rendreInvisible('lesFilms'); rendreInvisible('divEnregCateg'); rendreInvisible('divEnleverCateg'); rendreInvisible('foot');\">Modifier</a></li>\n"; 
-echo "					<li class=\"nav-item\"><a href=\"#\" onClick=\"rendreVisible('divEnleverCateg'); rendreInvisible('lesFilms'); rendreInvisible('divFicheCateg'); rendreInvisible('divEnregCateg'); rendreInvisible('foot');\">Enlever</a></li>					\n"; 
+//echo "					<li class=\"nav-item\"><a href=\"#\" onClick=\"rendreVisible('divEnleverCateg'); rendreInvisible('lesFilms'); rendreInvisible('divFicheCateg'); rendreInvisible('divEnregCateg'); rendreInvisible('foot');\">Enlever</a></li>					\n"; 
 echo "				</ul> \n"; 
 echo "            </li></div>	         \n"; 
  

@@ -234,6 +234,7 @@ echo "</div>";
 			$rep.="<p class=\"card-text\">Duree: ".($ligne->duree)."minutes.</p>";
 			$rep.="<p class=\"card-text\">Categorie: ".($ligne->id_categ)."</p>";
 			$rep.="<p class=\"card-text\">Prix: ".($ligne->prix)."</p>";
+			$rep.="<p class=\"card-text\"><a href=\"#\">Ajouter au panier </a></p>";
 			$rep.="</div></div></div>";				 
 		}		
 	 mysqli_free_result($listeFilms);

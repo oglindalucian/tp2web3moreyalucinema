@@ -56,27 +56,15 @@ function lister() {
 	$rep.="<table border=1>";
 	$rep.="<tr><th>NUMERO</th><th>TITRE</th><th>REALISATEUR</th><th>CATEGORIE</th><th>DUREE</th><th>PRIX</th><th>POCHETTE</th></tr>";
 	
-	//$reponse = $bdd->query("SELECT film.no_film AS numeroFilm, film.titre AS titreFilm, film.realisateur AS realisateur, categorie.nom AS nomCategorie, 
-	//film.duree AS dureeFilm, film.prix AS prixFilm, film.pochette AS pochetteFilm FROM film  
-	//INNER JOIN categorie ON film.id_categ=categorie.id_categ ORDER BY categorie.nom");
-	
-	//$requette="SELECT film.no_film AS numeroFilm, film.titre AS titreFilm, film.realisateur AS realisateur, categorie.nom AS nomCategorie, 
-	//film.duree AS dureeFilm, film.prix AS prixFilm, film.pochette AS pochetteFilm FROM film  
-	//INNER JOIN categorie ON film.id_categ=categorie.id_categ ORDER BY categorie.nom";
-	$requette = "SELECT * FROM film";
+	$requette="SELECT film.no_film AS numeroFilm, film.titre AS titreFilm, film.realisateur AS realisateur, categorie.nom AS nomCategorie, 
+	film.duree AS dureeFilm, film.prix AS prixFilm, film.pochette AS pochetteFilm FROM film, categorie  
+	WHERE film.id_categ=categorie.id_categ ORDER BY categorie.nom";
+	//$requette = "SELECT * FROM film";
 	global $con;
-	 try{
-		 //$listeFilms=mysqli_query("bdfilms", $con,$requette or die(mysqli_error("bdfilms")));
-		// $result = $con->query($requette) or die('Error :'.$con->error);
-
-			//while ($donnees = $reponse->fetch()) {
-				//$rep.="<tr><td>".$donnees['numeroFilm']."</td><td>".$donnees['titreFilm']."</td><td>".$donnees['realisateur']."</td><td>".$donnees['nomCategorie']."</td><td>".$donnees['dureeFilm']."</td><td>".$donnees['prixFilm']."</td><td><img src='../pochettes/".$donnees['pochetteFilm']."' width=80 height=80></td></tr>";		 
-			//}
-		
-		 $listeFilms=mysqli_query($con,$requette);
-		 while($ligne=mysqli_fetch_object($listeFilms)){
-			//$rep.="<tr><td>".($ligne->numeroFilm)."</td><td>".($ligne->titreFilm)."</td><td>".($ligne->realisateur)."</td><td>".($ligne->nomCategorie)."</td><td>".($ligne->dureeFilm)."</td><td>".($ligne->prixFilm)."</td><td><img src='../pochettes/".($ligne->pochetteFilm)."' width=80 height=80></td></tr>";		 
-			$rep.="<tr><td>".($ligne->no_film)."</td><td>".($ligne->titre)."</td><td>".($ligne->realisateur)."</td><td>".($ligne->id_categ)."</td><td>".($ligne->duree)."</td><td>".($ligne->prix)."</td><td><img src='../pochettes/".($ligne->pochette)."' width=80 height=80></td></tr>";		 
+	try{
+		$listeFilms=mysqli_query($con,$requette);
+		while($ligne=mysqli_fetch_object($listeFilms)){
+			$rep.="<tr><td>".($ligne->numeroFilm)."</td><td>".($ligne->titreFilm)."</td><td>".($ligne->realisateur)."</td><td>".($ligne->nomCategorie)."</td><td>".($ligne->dureeFilm)."</td><td>".($ligne->prixFilm)."</td><td><img src='../pochettes/".($ligne->pochetteFilm)."' width=80 height=80></td></tr>";		 
 		}
 			
 		
@@ -88,7 +76,40 @@ function lister() {
 		echo $rep;
 	 }
 	 mysqli_close($con);
-	 //$reponse->closeCursor();
+	
+	
+	// =============================
+	 $rep="";
+  //   $requette="SELECT f.no_film, f.titre, f.realisateur, c.nom, 
+  // f.duree, f.prix, f.pochette FROM film f, categorie  c
+  // WHERE f.id_categ=c.id_categ ";
+   // $requette="select * from film";
+   // if($result = mysqli_query($con, $requette)) {
+      // if(mysqli_num_rows($result) > 0) {
+        // $rep.="<caption>LISTE DES FILMS</caption>";
+		// $rep.="<table border=1>";
+		// $rep.="<tr><th>NUMERO</th><th>TITRE</th><th>REALISATEUR</th><th>CATEGORIE</th><th>DUREE</th><th>PRIX</th><th>POCHETTE</th></tr>";
+         
+         // while($row = mysqli_fetch_array($result)){
+            // $rep.= "<tr>";
+            // $rep.= "<td>" . $row['no_film'] . "</td>";
+            // $rep.= "<td>" . $row['titre'] . "</td>";
+			// $rep.= "<td>" . $row['realisateur'] . "</td>";
+			// $rep.= "<td>" . $row['id_categ'] . "</td>";
+            // $rep.= "<td>" . $row['duree'] . "</td>";
+			// $rep.= "<td>" . $row['prix'] . "</td>";
+			// $rep.= "<td><img src='../pochettes/" . $row['pochette'] . "' width=80 height=80></td>";			
+            // $rep.= "</tr>";
+         // }
+         // $rep.= "</table>";
+         // mysqli_free_result($result);
+      // } else {
+         // echo "No records matching your query were found.";
+      // }
+   // } else {
+      // echo "ERROR: Could not able to execute $sql. " . mysqli_error($con);
+   // }
+   // mysqli_close($con);
 }
 
 function enlever() {
@@ -140,7 +161,7 @@ function fiche() {
 		$rep.= "	Numero:<input type=\"text\" id=\"num\" name=\"num\" value='".$ligne->no_film."' readonly><br>\n"; 
 		$rep.= "	Titre:<input type=\"text\" id=\"titre\" name=\"titre\" value='".$ligne->titre."'><br>\n"; 
 		$rep.= "	Realisateur:<input type=\"text\" id=\"res\" name=\"res\" value='".$ligne->realisateur."'><br><br>\n";
-		$rep.= "	Categorie:<input type=\"text\" id=\"categ\" name=\"categ\" value='".$ligne->id_categ."'><br><br>\n";		
+		$rep.= "	Categorie:<input type=\"text\" id=\"categ\" name=\"categ\" value='".$ligne->id_categ."' readonly><br><br>\n";		
 		$rep.= "	Duree:<input type=\"text\" id=\"duree\" name=\"duree\" value='".$ligne->duree."'><br>\n"; 
 		$rep.= "	Prix:<input type=\"text\" id=\"prix\" name=\"prix\" value='".$ligne->prix."'><br>\n";
 		$rep.= "  Pochette:<input type=\"file\" id=\"pochette\" name=\"pochette\"><br><br>";

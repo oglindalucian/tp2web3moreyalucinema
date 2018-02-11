@@ -60,15 +60,16 @@ function valider(){
 	var res=document.getElementById('res').value; 
 	var categ=document.getElementById('categ').value; 
 	var prix=document.getElementById('prix').value; 
-	var numRegExp1=new RegExp("^[0-9]{1,4}$"); //categ, prix, duree
+	var numRegExp1=new RegExp("^[0-9]{1,4}$"); //prix, duree
 	var numRegExp2=new RegExp("^[a-zA-Z0-9]{2,30}$"); //res, titre
+	var numRegExp3=new RegExp("^[1-7]$"); //categ
 	if(titre!="" && duree!="" && res!="" && categ!="" && prix!="") {
 		if(numRegExp1.test(categ) && numRegExp1.test(prix) && numRegExp1.test(duree) && numRegExp2.test(res) && numRegExp2.test(titre)) {
 			return true; 
 		}
 		else {
 			var err = document.getElementById("descriptionErreurs");
-			err.innerHTML = "Veuillez utiliser des 1 a 4 chiffres pour la categorie, le prix et la duree et de 2 a 30 lettres pour le realisateur et le titre!";
+			err.innerHTML = "Veuillez utiliser des 1 a 4 chiffres pour le prix et la duree, de 2 a 30 lettres pour le realisateur et le titre, les chiffres 1 a 7 pour la categorie!";
 			rendreVisible("descriptionErreurs");
 		}
 	} else {
