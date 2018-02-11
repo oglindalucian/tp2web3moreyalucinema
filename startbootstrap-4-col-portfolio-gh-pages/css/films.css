@@ -1,0 +1,44 @@
+ #divEnlever, #divEnreg, #divFiche, #divEnregCateg, #divEnleverCateg, #divFicheCateg, #descriptionErreurs {
+	
+	display:none;	
+}
+
+#descriptionErreurs {
+	color: red;
+}
+
+#video {
+	
+	width:1000px;
+	height:600px;
+}
+
+.multipleOptions {
+	position: relative;
+	margin-top:7px;
+	margin-left:7px;
+	margin-right:7px;
+}
+
+a:link {
+    color: #888D93;
+}
+
+/* visited link */
+a:visited {
+    color: #CCD6E3;
+}
+
+/* mouse over link */
+a:hover {
+    color: #8CA4C1;
+}
+
+/* selected link */
+a:active {
+    color: #546A83;
+}
+
+.dropdown-menu {
+	background-color: #353942;
+}
