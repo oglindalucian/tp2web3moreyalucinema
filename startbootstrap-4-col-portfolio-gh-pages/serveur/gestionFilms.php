@@ -28,7 +28,8 @@ function enregistrer() {
 	$res=$_POST['res'];
 	$id_categorie=$_POST['categ'];
 	$duree=$_POST['duree'];
-	$prix=$_POST['prix'];	
+	$prix=$_POST['prix'];
+	$src=$_POST['src'];	
 	$dossier="../pochettes/";
 	$nomPochette=sha1($titre.time());
 	$pochette="avatar.png";
@@ -43,9 +44,9 @@ function enregistrer() {
 		$pochette=$nomPochette.$extension;
 	}
 	global $con;
-	$requete="INSERT INTO film values(0,?,?,?,?,?,?)";
+	$requete="INSERT INTO film values(0,?,?,?,?,?,?,?)";
 	$stmt = $con->prepare($requete);
-	$stmt->bind_param("ssiids", $titre,$res,$id_categorie,$duree,$prix,$pochette);
+	$stmt->bind_param("ssiidss", $titre,$res,$id_categorie,$duree,$prix,$pochette,$src);
 	$stmt->execute();
 	echo "Film ".$con->insert_id." bien enregistre";
 	mysqli_close($con);
@@ -161,10 +162,11 @@ function fiche() {
 		$rep.= "	Numero:<input type=\"text\" id=\"num\" name=\"num\" value='".$ligne->no_film."' readonly><br>\n"; 
 		$rep.= "	Titre:<input type=\"text\" id=\"titre\" name=\"titre\" value='".$ligne->titre."'><br>\n"; 
 		$rep.= "	Realisateur:<input type=\"text\" id=\"res\" name=\"res\" value='".$ligne->realisateur."'><br><br>\n";
-		$rep.= "	Categorie:<input type=\"text\" id=\"categ\" name=\"categ\" value='".$ligne->id_categ."' readonly><br><br>\n";		
+		$rep.= "	Categorie:<input type=\"text\" id=\"categ\" name=\"categ\" value='".$ligne->id_categ."' readonly ><br><br>\n";		
 		$rep.= "	Duree:<input type=\"text\" id=\"duree\" name=\"duree\" value='".$ligne->duree."'><br>\n"; 
 		$rep.= "	Prix:<input type=\"text\" id=\"prix\" name=\"prix\" value='".$ligne->prix."'><br>\n";
-		$rep.= "  Pochette:<input type=\"file\" id=\"pochette\" name=\"pochette\"><br><br>";
+		$rep.= "    Pochette:<input type=\"file\" id=\"pochette\" name=\"pochette\"><br><br>";
+		$rep.= "	Source:<input type=\"text\" id=\"src\" name=\"src\" value='".$ligne->source."'><br>\n";
 		$rep.= "	<input type=\"submit\" value=\"Envoyer\"><br>\n"; 
 		$rep.= "</form>\n";
 		$rep.= "</div>";
@@ -192,7 +194,8 @@ function modifier() {
 	$res=$_POST['res'];
 	$id_categ=$_POST['categ'];
 	$duree=$_POST['duree'];
-	$prix=$_POST['prix'];	
+	$prix=$_POST['prix'];
+	$src=$_POST['src'];
 	$dossier="../pochettes/";
 	$requette="SELECT pochette FROM film WHERE no_film=?";
 	$stmt = $con->prepare($requette);
@@ -227,9 +230,9 @@ function modifier() {
 		// Enlever le fichier temporaire chargé
 		@unlink($tmp); //effacer le fichier temporaire
 	}
-	$requette="UPDATE film set titre=?,realisateur=?,id_categ=?,duree=?,prix=?,pochette=? WHERE no_film=?";
+	$requette="UPDATE film set titre=?,realisateur=?,id_categ=?,duree=?,prix=?,pochette=?,source=? WHERE no_film=?";
 	$stmt = $con->prepare($requette);
-	$stmt->bind_param("ssiidsi",$titre,$res,$id_categ,$duree,$prix,$pochette,$num);
+	$stmt->bind_param("ssiidssi",$titre,$res,$id_categ,$duree,$prix,$pochette,$src,$num);
 	$stmt->execute();
 	mysqli_close($con);
 	echo "<br><b>LE FILM : ".$num." A ETE MODIFIE</b>";

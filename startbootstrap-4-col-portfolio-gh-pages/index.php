@@ -33,12 +33,15 @@
 
 if (isset($_GET['src']) && !empty($_GET['src'])) {
 		$id=$_GET['src'];
+
 echo "<div id=\"video\">";
 echo "<span onClick=\"rendreInvisible('video')\">X</span><br>";
 $rep="";
 	
 try{
-  	$rep.="<iframe width=\"975px\" height=\"550px\" src='".$id."'>	</iframe>";			
+  	$rep.="<iframe width=\"975px\" height=\"550px\" src='".$id."'>	</iframe>";	
+	//$rep.="	<video width=\"975px\" height=\"550px\" controls> <source src='".$id."' type=\"video/mp4\"> Your browser does not support HTML5 video. </video>	";
+	//$rep.="<video src='".$id."' controls=\"true\"></video>";
 	 } catch (Exception $e){
 		echo "<iframe id=\"visionnerFilm\" width=\"975px\" height=\"550px\"
 					src=\"https://www.youtube.com/embed/tgbNymZ7vqY\">
@@ -48,7 +51,12 @@ try{
 	 }			
 echo "</div>";
 
-}
+} else {
+	echo "<div id=\"video\">";
+	echo "<span onClick=\"rendreInvisible('video')\">X</span><br>";
+	echo "Desole! Le film n'est pas encore disponible.";
+	echo "</div>";
+	}
 	?>
 	
 	<!--les categories-->
@@ -149,7 +157,13 @@ echo "</div>";
 				  <div class="col-sm-10">
 						<input type="text" id="prix" name="prix">
 				  </div>
-				</div>				
+				</div>
+				<div class="form-group">
+				  <label class="control-label col-sm-2" for="src">Source:</label>
+				  <div class="col-sm-10">
+						<input type="text" id="src" name="src">
+				  </div>
+				</div>					
 				<div class="form-group">
 				  <label class="control-label col-sm-2" for="pochette">Pochette:</label>
 				  <div class="col-sm-10">
@@ -157,6 +171,7 @@ echo "</div>";
 					<input type="submit" value="Envoyer" ><br>
 				  </div>
 				</div>
+							
 			</form>
 		</div>
 		<form id="formLister" action="serveur/gestionFilms.php" method="POST">
