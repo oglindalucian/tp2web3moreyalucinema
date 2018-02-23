@@ -1,4 +1,8 @@
 <?php
+$connexion = "Connexion";
+$deconnexion = "Déconnexion";
+
+
 echo "<nav class=\"navbar navbar-expand-lg navbar-dark bg-dark fixed-top\">\n"; 
 echo "      <div class=\"container\">\n"; 
 echo "        <a class=\"navbar-brand\" href=\"#\">Cinéma Moreyalu</a>\n"; 
@@ -15,28 +19,29 @@ echo "			  <div class=\"multipleOptions\"><li class=\"dropdown\" class=\"nav-ite
 echo "				 <ul class=\"dropdown-menu\">\n"; 
 //echo "					<li class=\"nav-item\"><a href=\"#\" onClick=\"rendreVisible('divEnregCateg'); rendreInvisible('lesFilms'); rendreInvisible('divFicheCateg'); rendreInvisible('divEnleverCateg'); rendreInvisible('foot');\">Enregistrer</a></li>\n"; 
 echo "					<li class=\"nav-item\"><a href=\"#\" onClick=\"listerCateg(); rendreInvisible('lesFilms');\" >Lister</a></li>\n"; 
-echo "					<li class=\"nav-item\"><a href=\"#\" onClick=\"rendreVisible('divFicheCateg'); rendreInvisible('lesFilms'); rendreInvisible('divEnregCateg'); rendreInvisible('divEnleverCateg'); rendreInvisible('foot');\">Modifier</a></li>\n"; 
+echo "					<li class=\"nav-item\"><a href=\"#\" onClick=\"rendreVisible('divFicheCateg'); rendreInvisible('lesFilms'); rendreInvisible('divEnregCateg'); rendreInvisible('divEnleverCateg'); rendreInvisible('foot'); rendreInvisible('connexion'); rendreInvisible('inscription'); rendreInvisible('divEnreg'); rendreInvisible('divEnlever'); rendreInvisible('divFiche'); rendreInvisible('descriptionErreurs');\">Modifier</a></li>\n"; 
 //echo "					<li class=\"nav-item\"><a href=\"#\" onClick=\"rendreVisible('divEnleverCateg'); rendreInvisible('lesFilms'); rendreInvisible('divFicheCateg'); rendreInvisible('divEnregCateg'); rendreInvisible('foot');\">Enlever</a></li>					\n"; 
 echo "				</ul> \n"; 
 echo "            </li></div>	         \n"; 
  
 echo "			  <div class=\"multipleOptions\"><li class=\"dropdown\" class=\"nav-item\" ><a class=\"dropdown-toggle\" data-toggle=\"dropdown\" class=\"nav-link\" href=\"#\">Films <span class=\"caret\"></span></a>\n"; 
 echo "				 <ul class=\"dropdown-menu\">\n"; 
-echo "					<li class=\"nav-item\"><a href=\"#\" onClick=\"rendreVisible('divEnreg'); rendreInvisible('lesFilms'); rendreInvisible('divFiche'); rendreInvisible('divEnlever'); rendreInvisible('foot');\">Enregistrer</a></li>\n"; 
+echo "					<li class=\"nav-item\"><a href=\"#\" onClick=\"rendreVisible('divEnreg'); rendreInvisible('lesFilms'); rendreInvisible('divFiche'); rendreInvisible('divEnlever'); rendreInvisible('foot'); rendreInvisible('connexion'); rendreInvisible('inscription'); rendreInvisible('divFicheCateg'); rendreInvisible('divEnregCateg'); rendreInvisible('divEnleverCateg'); rendreInvisible('descriptionErreurs');\">Enregistrer</a></li>\n"; 
 echo "					<li class=\"nav-item\"><a href=\"#\" onClick=\"lister(); rendreInvisible('lesFilms');\" >Lister</a></li>\n"; 
-echo "					<li class=\"nav-item\"><a href=\"#\" onClick=\"rendreVisible('divFiche'); rendreInvisible('lesFilms'); rendreInvisible('divEnreg'); rendreInvisible('divEnlever'); rendreInvisible('foot');\">Modifier</a></li>\n"; 
-echo "					<li class=\"nav-item\"><a href=\"#\" onClick=\"rendreVisible('divEnlever'); rendreInvisible('lesFilms'); rendreInvisible('divFiche'); rendreInvisible('divEnreg'); rendreInvisible('foot');\">Enlever</a></li>					\n"; 
+echo "					<li class=\"nav-item\"><a href=\"#\" onClick=\"rendreVisible('divFiche'); rendreInvisible('lesFilms'); rendreInvisible('divEnreg'); rendreInvisible('divEnlever'); rendreInvisible('foot'); rendreInvisible('connexion'); rendreInvisible('inscription'); rendreInvisible('divFicheCateg'); rendreInvisible('divEnregCateg'); rendreInvisible('divEnleverCateg'); rendreInvisible('descriptionErreurs');\">Modifier</a></li>\n"; 
+echo "					<li class=\"nav-item\"><a href=\"#\" onClick=\"rendreVisible('divEnlever'); rendreInvisible('lesFilms'); rendreInvisible('divFiche'); rendreInvisible('divEnreg'); rendreInvisible('foot'); rendreInvisible('connexion'); 
+rendreInvisible('inscription'); rendreInvisible('divFicheCateg'); rendreInvisible('divEnregCateg'); rendreInvisible('divEnleverCateg'); rendreInvisible('descriptionErreurs');\">Enlever</a></li>					\n"; 
 echo "				</ul> \n"; 
 echo "            </li></div>	         \n"; 
 
 echo "            <li class=\"nav-item\">\n"; 
-echo "              <a class=\"nav-link\" href=\"#\">Connexion</a>\n"; 
+echo "              <a class=\"nav-link\" href=\"#\" onClick=\"rendreVisible('connexion'); rendreInvisible('inscription');  rendreInvisible('divEnreg'); rendreInvisible('lesFilms'); rendreInvisible('divFiche'); rendreInvisible('divEnlever'); rendreInvisible('foot'); rendreInvisible('divFicheCateg'); rendreInvisible('divEnregCateg'); rendreInvisible('divEnleverCateg'); rendreInvisible('descriptionErreurs');\">".$connexion."</a>\n"; 
 echo "            </li>\n"; 
 echo "            <li class=\"nav-item\">\n"; 
 echo "              <a class=\"nav-link\" href=\"#\">Panier</a>\n"; 
 echo "            </li>\n"; 
 echo "            <li class=\"nav-item\">\n"; 
-echo "              <a class=\"nav-link\" href=\"#\">Déconnexion</a>\n"; 
+echo "              <a class=\"nav-link\" href=\"#\">".$deconnexion."</a>\n"; 
 echo "            </li>\n"; 
 echo "		</ul>\n"; 
 echo "        </div>\n"; 

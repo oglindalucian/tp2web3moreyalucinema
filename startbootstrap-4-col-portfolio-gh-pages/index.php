@@ -29,6 +29,7 @@
 
     <!-- Page Content -->
     <div class="container">
+	
 	<?php
 
 if (isset($_GET['src']) && !empty($_GET['src'])) {
@@ -52,12 +53,80 @@ try{
 echo "</div>";
 
 } else {
-	echo "<div id=\"video\">";
-	echo "<span onClick=\"rendreInvisible('video')\">X</span><br>";
-	echo "Desole! Le film n'est pas encore disponible.";
-	echo "</div>";
+	// echo "<div id=\"video\">";
+	// echo "<span onClick=\"rendreInvisible('video')\">X</span><br>";
+	// echo "Desole! Le film n'est pas encore disponible.";
+	// echo "</div>";
 	}
 	?>
+	
+	
+	<!--connexion-->
+		<div id="connexion">
+			<form id="formEnregCateg" class="form-horizontal" enctype="multipart/form-data" action="serveur/gestionMembres.php" method="POST"  >
+				<h3>Connexion</h3><br><br>
+				<input type="hidden" value="connexion" name="operation">
+				<span onClick="rendreInvisible('connexion')">X</span><br>				
+				<div class="form-group">
+					<label class="control-label col-sm-2" for="courriel">Courriel:</label>
+					<div class="col-sm-10">
+						<input type="text" id="courriel" name="courriel">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-sm-2" for="mdp">Mot de passe:</label>
+					<div class="col-sm-10">
+						<input type="text" id="mdp" name="mdp">
+					</div>
+				</div>
+				<div class="form-group">
+				  <div class="col-sm-10">
+					<input type="submit" value="Envoyer">
+				  </div>
+				</div>	
+			</form>
+			<p><a href="#" onClick="rendreInvisible('connexion'); rendreVisible('inscription'); rendreInvisible('divEnreg'); rendreInvisible('lesFilms'); rendreInvisible('divFiche'); rendreInvisible('divEnlever'); rendreInvisible('foot'); rendreInvisible('divFicheCateg'); rendreInvisible('divEnregCateg'); rendreInvisible('divEnleverCateg'); rendreInvisible('descriptionErreurs');">Pas encore inscrit?</a></p>
+
+		</div>
+		
+		<!--inscription-->
+		<div id="inscription">
+			<form id="formEnregCateg" class="form-horizontal" enctype="multipart/form-data" action="serveur/gestionMembres.php" method="POST"  >
+				<h3>Inscription</h3><br><br>
+				<input type="hidden" value="inscription" name="operation">
+				<span onClick="rendreInvisible('inscription')">X</span><br>				
+				<div class="form-group">
+					<label class="control-label col-sm-2" for="nom">Nom:</label>
+					<div class="col-sm-10">
+						<input type="text" id="nom" name="nom">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-sm-2" for="prenom">Prénom:</label>
+					<div class="col-sm-10">
+						<input type="text" id="prenom" name="prenom">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-sm-2" for="courriel">Courriel:</label>
+					<div class="col-sm-10">
+						<input type="text" id="courriel" name="courriel">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-sm-2" for="age">Age:</label>
+					<div class="col-sm-10">
+						<input type="text" id="age" name="age">
+					</div>
+				</div>
+				<div class="form-group">
+				  <div class="col-sm-10">
+					<input type="submit" value="Envoyer">
+				  </div>
+				</div>	
+			</form>
+		</div>
+	
 	
 	<!--les categories-->
 		<div id="divEnregCateg">
@@ -240,7 +309,7 @@ echo "</div>";
 			$rep.="<div class=\"card h-100\">";
 			//$rep.="<form action=\"index.php\" method=\"GET\" >\n";
 			//$rep.="<input type=\"hidden\" name=\"sourceFilm\" value='".($ligne->no_film)."'>";
-			$rep.="<a href='index.php?src=".$src."' ><img class=\"card-img-top\" src='pochettes/".($ligne->pochette)."' width=160 height=80 alt=\"\"></a>";
+			$rep.="<a onClick=\"rendreVisible('lieuFilm')\" href='index.php?src=".$src."' ><img class=\"card-img-top\" src='pochettes/".($ligne->pochette)."' width=160 height=80 alt=\"\"></a>";
 			//$rep.="<a href='index.php?src=".$src."' ><button type=\"submit\" style=\"background-color:transparent; border-color:transparent;\"><img class=\"card-img-top\" src='pochettes/".($ligne->pochette)."' width=160 height=80 alt=\"\"></button></a>";
 			//$rep.="</form>";
 			$rep.="<div class=\"card-body\">";
