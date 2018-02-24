@@ -1,3 +1,77 @@
+<?php
+	session_start();
+	$nom=$prenom=$courriel=$mdp=""; $age=16;
+	//$_SESSION["CourrielUtilConnecte"]="";
+	//$_SESSION["NomUtilConnecte"]=$_SESSION["PrenomUtilConnecte"]=$_SESSION["AgeUtilConnecte"]=$_SESSION["MDPUtilConnecte"]=null;
+	//if($_SESSION["NomUtilConnecte"]!==null)
+		//$nom=$_SESSION["NomUtilConnecte"];
+	//if($_SESSION["PrenomUtilConnecte"]!==null)
+		//$prenom=$_SESSION["PrenomUtilConnecte"];
+	//if($_SESSION["AgeUtilConnecte"]!==null)
+		//$age=$_SESSION["AgeUtilConnecte"];
+	//if($_SESSION["CourrielUtilConnecte"]!==null)
+		//$courriel=$_SESSION["CourrielUtilConnecte"];
+	//if($_SESSION["MDPUtilConnecte"]!==null) {
+		//$mdp=$_SESSION["MDPUtilConnecte"];
+		//$confirmation=$_SESSION["MDPUtilConnecte"];;
+		$con=mysqli_connect("localhost","root","","bdfilms");
+if (mysqli_connect_errno()) {
+		echo "Probleme de connexion au serveur de bd";
+		exit();
+	}
+
+$courriel=$_SESSION["CourrielUtilConnecte"];
+	//-----
+try{
+	if($courriel!=="") {
+		$requette = "SELECT * FROM utilisateur WHERE courriel = ?";   
+		$stmt = $con->prepare($requette);
+		$stmt->bind_param("s", $courriel);
+		$stmt->execute();
+		$result = $stmt->get_result();
+		if(!$ligne = $result->fetch_object()){
+			//$_SESSION["messagePourUtilisateur"] =  "Courriel inexistent!";
+			//echo "Courriel inexistent!";
+			mysqli_close($con);
+			//exit;
+		}
+		else {
+				//$_SESSION["NomUtilConnecte"] = $ligne->nom;
+				$nom=$ligne->nom;
+				//$_SESSION["PrenomUtilConnecte"] = $ligne->prenom;
+				$prenom=$ligne->prenom;
+				//$_SESSION["AgeUtilConnecte"] = $ligne->age;
+				$age=$ligne->age;			
+			}
+			mysqli_free_result($result);
+		//-----	
+			
+		$requette = "SELECT * FROM connexion WHERE courriel = ?";   
+		$stmt = $con->prepare($requette);
+		$stmt->bind_param("s", $courriel);
+		$stmt->execute();
+		$result = $stmt->get_result();
+		if(!$ligne = $result->fetch_object()){
+			//$_SESSION["messagePourUtilisateur"] =  "Courriel inexistent!";
+			//echo "Courriel inexistent!";
+			mysqli_close($con);
+			exit;
+		}
+		else {
+				//$_SESSION["MDPUtilConnecte"] = $ligne->mdp;
+				$mdp=$ligne->mdp;
+				
+				//$_SESSION["ConfirmationUtilConnecte"] = $ligne->mdp;					
+			}
+			mysqli_free_result($result);
+			
+		//-----	
+			
+			mysqli_close($con);
+	}
+} catch(Exception $e) {}	
+			
+?>
 
 <!DOCTYPE html>
 <html lang="fr">
@@ -22,7 +96,7 @@
 
   </head>
 
-  <body>
+  <body onLoad="creerElementsListes();">
 
     <!-- Navigation -->
      <?php include 'menu.php';?>
@@ -63,7 +137,7 @@ echo "</div>";
 	
 	<!--connexion-->
 		<div id="connexion">
-			<form id="formEnregCateg" class="form-horizontal" enctype="multipart/form-data" action="serveur/gestionMembres.php" method="POST"  >
+			<form id="formEnregCateg" class="form-horizontal" enctype="multipart/form-data" action="serveur/gestionMembres.php" method="POST" onSubmit="return validerConnexion();" >
 				<h3>Connexion</h3><br><br>
 				<input type="hidden" value="connexion" name="operation">
 				<span onClick="rendreInvisible('connexion')">X</span><br>				
@@ -91,7 +165,7 @@ echo "</div>";
 		
 		<!--inscription-->
 		<div id="inscription">
-			<form id="formEnregCateg" class="form-horizontal" enctype="multipart/form-data" action="serveur/gestionMembres.php" method="POST"  >
+			<form id="formEnregCateg" class="form-horizontal" enctype="multipart/form-data" action="serveur/gestionMembres.php" method="POST" onSubmit="return validerInscription();" >
 				<h3>Inscription</h3><br><br>
 				<input type="hidden" value="inscription" name="operation">
 				<span onClick="rendreInvisible('inscription')">X</span><br>				
@@ -108,15 +182,28 @@ echo "</div>";
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="control-label col-sm-2" for="courriel">Courriel:</label>
+					<label class="control-label col-sm-2" for="courriel2">Courriel:</label>
 					<div class="col-sm-10">
-						<input type="text" id="courriel" name="courriel">
+						<input type="text" id="courriel2" name="courriel2">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-sm-2" for="mdp2">Mot de passe:</label>
+					<div class="col-sm-10">
+						<input type="text" id="mdp2" name="mdp2">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-sm-2" for="cmdp2">Confirmer mot de passe:</label>
+					<div class="col-sm-10">
+						<input type="text" id="cmdp2" name="cmdp2">
 					</div>
 				</div>
 				<div class="form-group">
 					<label class="control-label col-sm-2" for="age">Age:</label>
 					<div class="col-sm-10">
-						<input type="text" id="age" name="age">
+						<select id="age" name="age">
+						</select>
 					</div>
 				</div>
 				<div class="form-group">
@@ -126,7 +213,59 @@ echo "</div>";
 				</div>	
 			</form>
 		</div>
-	
+		
+		<!--profil    $nom=$prenom=$courriel=$mdp=$confirm=""; $age=16;-->
+		<div id="profil">
+			<form id="formEnregCateg" class="form-horizontal" enctype="multipart/form-data" action="serveur/gestionMembres.php" method="POST" onSubmit="return validerProfil();" >
+				<h3>Votre profil</h3><br><br>
+				<input type="hidden" value="profil" name="operation">
+				<span onClick="rendreInvisible('profil')">X</span><br>				
+				<div class="form-group">
+					<label class="control-label col-sm-2" for="nom3">Nom:</label>
+					<div class="col-sm-10">
+						<input type="text" id="nom3" name="nom3" value="<?php echo $nom;?>" >
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-sm-2" for="prenom3">Prénom:</label>
+					<div class="col-sm-10">
+						<input type="text" id="prenom3" name="prenom3" value="<?php echo $prenom;?>">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-sm-2" for="courriel3">Courriel:</label>
+					<div class="col-sm-10">
+						<input type="text" id="courriel3" name="courriel3" value="<?php echo $courriel;?>">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-sm-2" for="mdp3">Mot de passe:</label>
+					<div class="col-sm-10">
+						<input type="text" id="mdp3" name="mdp3" value="<?php echo $mdp;?>" >
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-sm-2" for="cmdp3">Confirmer mot de passe:</label>
+					<div class="col-sm-10">
+						<input type="text" id="cmdp3" name="cmdp3" value="<?php echo $mdp;?>" >
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-sm-2" for="age3">Age:</label>
+					<div class="col-sm-10">
+						<select id="age3" name="age3">
+						</select>
+					</div>
+				</div>
+				<div class="form-group">
+				  <div class="col-sm-10">
+					<input type="submit" value="Envoyer">
+				  </div>
+				</div>	
+			</form>
+		</div>
+		<script>
+		</script>
 	
 	<!--les categories-->
 		<div id="divEnregCateg">
@@ -290,9 +429,9 @@ echo "</div>";
 	  
 	  
 	  <div id="lesFilms">
-	  <h1 class="my-4">Bienvenu    
-      </h1>
-	   <div class="row">
+	  <br><br>
+      
+	  <div class="row">
 	  <?php
 	  $con=mysqli_connect("localhost","root","","bdfilms");
 		if (mysqli_connect_errno()) {
@@ -318,7 +457,7 @@ echo "</div>";
 			$rep.="<p class=\"card-text\">Duree: ".($ligne->duree)."minutes.</p>";
 			$rep.="<p class=\"card-text\">Categorie: ".($ligne->id_categ)."</p>";
 			$rep.="<p class=\"card-text\">Prix: ".($ligne->prix)."</p>";
-			$rep.="<p class=\"card-text\"><a href=\"#\">Ajouter au panier </a></p>";
+			$rep.="<p class=\"card-text\"><a href='serveur/gestionMembres.php?no=".($ligne->no_film)."prix=".($ligne->prix)."quantite=1'>Ajouter au panier</a></p>";
 			$rep.="</div></div></div>";				 
 		}		
 	 mysqli_free_result($listeFilms);
@@ -342,30 +481,7 @@ echo "</div>";
 	  
       <!-- /.row -->
 
-      <!-- Pagination -->
-      <ul class="pagination justify-content-center">
-        <li class="page-item">
-          <a class="page-link" href="#" aria-label="Previous">
-            <span aria-hidden="true">&laquo;</span>
-            <span class="sr-only">Previous</span>
-          </a>
-        </li>
-        <li class="page-item">
-          <a class="page-link" href="index.php">1</a>
-        </li>
-        <li class="page-item">
-          <a class="page-link" href="index2.php">2</a>
-        </li>
-        <li class="page-item">
-          <a class="page-link" href="#">3</a>
-        </li>
-        <li class="page-item">
-          <a class="page-link" href="#" aria-label="Next">
-            <span aria-hidden="true">&raquo;</span>
-            <span class="sr-only">Next</span>
-          </a>
-        </li>
-      </ul>
+      
 	</div> <!-- /#lesFilms -->
     </div>
     <!-- /.container -->

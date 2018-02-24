@@ -80,7 +80,128 @@ function valider(){
 	return false;
 }
 
+function creerElementsListes() {
+	var listeAge = document.getElementById("age");
+	for(var i=16; i<81; i++) {
+		var options = document.createElement("option");
+		options.textContent = i;
+		options.value = i;
+		listeAge.appendChild(options);
+	}
+	
+	var listeAge2 = document.getElementById("age3");
+	for(var i=16; i<81; i++) {
+		var options = document.createElement("option");
+		options.textContent = i;
+		options.value = i;
+		listeAge2.appendChild(options);		
+	}	
+	
+}
 
+function validerConnexion() {
+	if(!validerCourriel("courriel")) {
+		var err = document.getElementById("descriptionErreurs");
+		err.innerHTML = "Veuillez fournir un courriel valide svp!";
+		rendreVisible("descriptionErreurs");
+		return false;
+	}
+	if(!validerMDP("mdp")) {
+		var err = document.getElementById("descriptionErreurs");
+		err.innerHTML = "Veuillez fournir un mot de passe valide contenant de 6 a 8 lettres et/ou chiffres!";
+		rendreVisible("descriptionErreurs");
+		return false;
+	}
+	return true;
+}
+
+function validerCourriel(courriel) {
+	var email=document.getElementById(courriel).value;
+	var numRegExp=new RegExp("^[a-zA-Z0-9_-]+@[a-zA-Z0-9-]{2,}[.][a-zA-Z]{2,3}$");
+	if(email!="" && numRegExp.test(email))
+		return true;
+	return false;
+}
+
+function validerMDP(mdp) {
+	var mdp=document.getElementById(mdp).value;
+	var numRegExp=new RegExp("^[A-Za-z0-9]{6,8}$");
+	if(mdp!="" && numRegExp.test(mdp))
+		return true;
+	return false;
+}
+
+function validerInscription() {
+	var mdp = document.getElementById("mdp2").value;
+	var cmdp = document.getElementById("cmdp2").value;
+	var nom = document.getElementById("nom").value;
+	var prenom = document.getElementById("prenom").value;
+	var email = document.getElementById("courriel2").value;
+	if (!(mdp!="" && cmdp!="" && nom!="" && prenom!="" && email!="")) {
+		var err = document.getElementById("descriptionErreurs");
+		err.innerHTML = "Veuillez completer tous les champs svp!";
+		rendreVisible("descriptionErreurs");
+		return false;
+	}
+	if(!validerString('nom')) return false;
+	if(!validerString('prenom')) return false;
+	if(!validerCourriel("courriel2")) {
+		var err = document.getElementById("descriptionErreurs");
+		err.innerHTML = "Veuillez fournir un courriel valide svp!";
+		rendreVisible("descriptionErreurs");
+		return false;
+	}
+	if(!validerMDP("mdp2") || !validerMDP("cmdp2")) {
+		var err = document.getElementById("descriptionErreurs");
+		err.innerHTML = "Veuillez fournir un mot de passe valide contenant de 6 a 8 lettres et/ou chiffres!";
+		rendreVisible("descriptionErreurs");
+		return false;
+	}
+	if(mdp!==cmdp) {
+		var err = document.getElementById("descriptionErreurs");
+		err.innerHTML = "Le mot de passe et la confirmation ne coincident pas!";
+		rendreVisible("descriptionErreurs");
+		return false;
+	}
+	
+	return true;
+}
+
+function validerProfil() {
+	var mdp = document.getElementById("mdp3").value;
+	var cmdp = document.getElementById("cmdp3").value;
+	var nom = document.getElementById("nom3").value;
+	var prenom = document.getElementById("prenom3").value;
+	var email = document.getElementById("courriel3").value;
+	if (!(mdp!="" && cmdp!="" && nom!="" && prenom!="" && email!="")) {
+		var err = document.getElementById("descriptionErreurs");
+		err.innerHTML = "Veuillez completer tous les champs svp!";
+		rendreVisible("descriptionErreurs");
+		return false;
+	}
+	if(!validerString('nom3')) return false;
+	if(!validerString('prenom3')) return false;
+	if(!validerCourriel("courriel3")) {
+		var err = document.getElementById("descriptionErreurs");
+		err.innerHTML = "Veuillez fournir un courriel valide svp!";
+		rendreVisible("descriptionErreurs");
+		return false;
+	}
+	if(!validerMDP("mdp3") || !validerMDP("cmdp3")) {
+		var err = document.getElementById("descriptionErreurs");
+		err.innerHTML = "Veuillez fournir un mot de passe valide contenant de 6 a 8 lettres et/ou chiffres!";
+		rendreVisible("descriptionErreurs");
+		return false;
+	}
+	if(mdp!==cmdp) {
+		var err = document.getElementById("descriptionErreurs");
+		err.innerHTML = "Le mot de passe et la confirmation ne coincident pas!";
+		rendreVisible("descriptionErreurs");
+		return false;
+	}
+	
+	return true;
+}
 
 
 //Cas d'un button

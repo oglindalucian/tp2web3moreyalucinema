@@ -76,41 +76,9 @@ function lister() {
 		$rep.="</table>";
 		echo $rep;
 	 }
-	 mysqli_close($con);
-	
-	
-	// =============================
+	 mysqli_close($con);	
 	 $rep="";
-  //   $requette="SELECT f.no_film, f.titre, f.realisateur, c.nom, 
-  // f.duree, f.prix, f.pochette FROM film f, categorie  c
-  // WHERE f.id_categ=c.id_categ ";
-   // $requette="select * from film";
-   // if($result = mysqli_query($con, $requette)) {
-      // if(mysqli_num_rows($result) > 0) {
-        // $rep.="<caption>LISTE DES FILMS</caption>";
-		// $rep.="<table border=1>";
-		// $rep.="<tr><th>NUMERO</th><th>TITRE</th><th>REALISATEUR</th><th>CATEGORIE</th><th>DUREE</th><th>PRIX</th><th>POCHETTE</th></tr>";
-         
-         // while($row = mysqli_fetch_array($result)){
-            // $rep.= "<tr>";
-            // $rep.= "<td>" . $row['no_film'] . "</td>";
-            // $rep.= "<td>" . $row['titre'] . "</td>";
-			// $rep.= "<td>" . $row['realisateur'] . "</td>";
-			// $rep.= "<td>" . $row['id_categ'] . "</td>";
-            // $rep.= "<td>" . $row['duree'] . "</td>";
-			// $rep.= "<td>" . $row['prix'] . "</td>";
-			// $rep.= "<td><img src='../pochettes/" . $row['pochette'] . "' width=80 height=80></td>";			
-            // $rep.= "</tr>";
-         // }
-         // $rep.= "</table>";
-         // mysqli_free_result($result);
-      // } else {
-         // echo "No records matching your query were found.";
-      // }
-   // } else {
-      // echo "ERROR: Could not able to execute $sql. " . mysqli_error($con);
-   // }
-   // mysqli_close($con);
+  
 }
 
 function enlever() {
