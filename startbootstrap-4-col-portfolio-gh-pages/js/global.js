@@ -49,7 +49,7 @@ function validerString2(elem){
 		//var err = document.getElementById("descriptionErreurs");
 		//err.innerHTML = "Veuillez utiliser seulement des letteres, de 1 a 4 caracteres svp!";
 		//rendreVisible("descriptionErreurs");
-		//alert("Veuillez utiliser seulement des letteres, de 1 a 4 caracteres svp!");
+		alert("Veuillez utiliser seulement des letteres, de 2 a 30 caracteres svp!");
 	}
 	return false;
 }
@@ -95,7 +95,15 @@ function creerElementsListes() {
 		options.textContent = i;
 		options.value = i;
 		listeAge2.appendChild(options);		
-	}	
+	}
+
+	// var liste3 = document.getElementById("quantite");
+	// for(var i=1; i<30; i++) {
+		// var options = document.createElement("option");
+		// options.textContent = i;
+		// options.value = i;
+		// liste3.appendChild(options);		
+	// }	
 	
 }
 

@@ -12,6 +12,7 @@
 	if(@$_SESSION["panier"]===null)
 		@$_SESSION["panier"] = "";
 	
+	
 		$con=mysqli_connect("localhost","root","","bdfilms");
 if (mysqli_connect_errno()) {
 		//echo "Probleme de connexion au serveur de bd";
@@ -96,6 +97,9 @@ try{
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
 	<link rel="stylesheet" href="css/films.css" type="text/css" />
+	
+ 
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
   </head>
 
@@ -113,7 +117,10 @@ if (isset($_GET['src']) && !empty($_GET['src'])) {
 		$id=$_GET['src'];
 
 echo "<div id=\"video\">";
-echo "<span onClick=\"rendreInvisible('video')\">X</span><br>";
+//echo "<span onClick=\"rendreInvisible('video')\">X</span><br>";
+echo "<button type=\"button\" class=\"close\" aria-label=\"Close\" onClick=\"rendreInvisible('video')\">";
+echo "<span aria-hidden=\"true\">&times;</span></button>";
+
 $rep="";
 	
 try{
@@ -141,9 +148,23 @@ echo "</div>";
 	<!--connexion-->
 		<div id="connexion">
 			<form id="formEnregCateg" class="form-horizontal" enctype="multipart/form-data" action="serveur/gestionMembres.php" method="POST" onSubmit="return validerConnexion();" >
-				<h3>Connexion</h3><br><br>
+				<!--<h3>Connexion</h3><br><br>-->
 				<input type="hidden" value="connexion" name="operation">
-				<span onClick="rendreInvisible('connexion')">X</span><br>				
+				<nav class="navbar navbar-inverse" style="width:30%;">
+					<div class="container-fluid">
+						<div class="navbar-header">
+						<a class="navbar-brand" href="#">Connexion</a>
+						</div>
+						<ul class="nav navbar-nav navbar-right">
+						  <li class="active"><a href="#" onClick="rendreInvisible('connexion')">
+						  <button type="button" class="close" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+							</button>
+						  </a></li>
+						</ul>
+					  </div>
+					</nav>
+				<!--<span onClick="rendreInvisible('connexion')">X</span><br>-->				
 				<div class="form-group">
 					<label class="control-label col-sm-2" for="courriel">Courriel:</label>
 					<div class="col-sm-10">
@@ -169,9 +190,23 @@ echo "</div>";
 		<!--inscription-->
 		<div id="inscription">
 			<form id="formEnregCateg" class="form-horizontal" enctype="multipart/form-data" action="serveur/gestionMembres.php" method="POST" onSubmit="return validerInscription();" >
-				<h3>Inscription</h3><br><br>
+				<!--<h3>Inscription</h3><br><br>-->
 				<input type="hidden" value="inscription" name="operation">
-				<span onClick="rendreInvisible('inscription')">X</span><br>				
+				<nav class="navbar navbar-inverse" style="width:30%;">
+					<div class="container-fluid">
+						<div class="navbar-header">
+						<a class="navbar-brand" href="#">Inscription</a>
+						</div>
+						<ul class="nav navbar-nav navbar-right">
+						  <li class="active"><a href="#" onClick="rendreInvisible('inscription')">
+						  <button type="button" class="close" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+							</button>
+						  </a></li>
+						</ul>
+					  </div>
+					</nav>
+				<!--<span onClick="rendreInvisible('inscription')">X</span><br>-->				
 				<div class="form-group">
 					<label class="control-label col-sm-2" for="nom">Nom:</label>
 					<div class="col-sm-10">
@@ -220,9 +255,23 @@ echo "</div>";
 		<!--profil    $nom=$prenom=$courriel=$mdp=$confirm=""; $age=16;-->
 		<div id="profil">
 			<form id="formEnregCateg" class="form-horizontal" enctype="multipart/form-data" action="serveur/gestionMembres.php" method="POST" onSubmit="return validerProfil();" >
-				<h3>Votre profil</h3><br><br>
+				<!--<h3>Votre profil</h3><br><br>-->
 				<input type="hidden" value="profil" name="operation">
-				<span onClick="rendreInvisible('profil')">X</span><br>				
+				<nav class="navbar navbar-inverse" style="width:30%;">
+					<div class="container-fluid">
+						<div class="navbar-header">
+						<a class="navbar-brand" href="#">Votre profil</a>
+						</div>
+						<ul class="nav navbar-nav navbar-right">
+						  <li class="active"><a href="#" onClick="rendreInvisible('profil')">
+						  <button type="button" class="close" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+							</button>
+						  </a></li>
+						</ul>
+					  </div>
+					</nav>
+				<!--<span onClick="rendreInvisible('profil')">X</span><br>-->				
 				<div class="form-group">
 					<label class="control-label col-sm-2" for="nom3">Nom:</label>
 					<div class="col-sm-10">
@@ -273,9 +322,23 @@ echo "</div>";
 	<!--les categories-->
 		<div id="divEnregCateg">
 			<form id="formEnregCateg" class="form-horizontal" enctype="multipart/form-data" action="serveur/gestionFilms.php" method="POST" onSubmit="return validerString('nom_categ');" >
-				<h3>Enregistrer categorie</h3><br><br>
+				<!--<h3>Enregistrer categorie</h3><br><br>-->
 				<input type="hidden" value="enregistrerCateg" name="operation">
-				<span onClick="rendreInvisible('divEnregCateg')">X</span><br>				
+				<nav class="navbar navbar-inverse" style="width:30%;">
+					<div class="container-fluid">
+						<div class="navbar-header">
+						<a class="navbar-brand" href="#">Enregistrer categorie</a>
+						</div>
+						<ul class="nav navbar-nav navbar-right">
+						  <li class="active"><a href="#" onClick="rendreInvisible('divEnregCateg')">
+						  <button type="button" class="close" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+							</button>
+						  </a></li>
+						</ul>
+					  </div>
+					</nav>
+				<!--<span onClick="rendreInvisible('divEnregCateg')">X</span><br>-->				
 				<div class="form-group">
 					<label class="control-label col-sm-2" for="nom_categ">Nom categorie:</label>
 					<div class="col-sm-10">
@@ -294,9 +357,23 @@ echo "</div>";
 		</form>
 		<div id="divEnleverCateg">
 			<form id="formEnleverCateg" class="form-horizontal" action="serveur/gestionFilms.php" method="POST" onSubmit="return validerNum('numCateg');">
-				<h3>Enlever categorie</h3><br><br>
+				<!--<h3>Enlever categorie</h3><br><br>-->
 				<input type="hidden" value="enleverCateg" name="operation">
-				<span onClick="rendreInvisible('divEnleverCateg')">X</span><br>
+				<nav class="navbar navbar-inverse" style="width:30%;">
+					<div class="container-fluid">
+						<div class="navbar-header">
+						<a class="navbar-brand" href="#">Enlever categorie</a>
+						</div>
+						<ul class="nav navbar-nav navbar-right">
+						  <li class="active"><a href="#" onClick="rendreInvisible('divEnleverCateg')">
+						  <button type="button" class="close" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+							</button>
+						  </a></li>
+						</ul>
+					  </div>
+					</nav>
+				<!--<span onClick="rendreInvisible('divEnleverCateg')">X</span><br>-->
 				<div class="form-group">
 				  <label class="control-label col-sm-2" for="numCateg">Numero categorie:</label>
 				  <div class="col-sm-10">
@@ -313,9 +390,23 @@ echo "</div>";
 		</div>
 		<div id="divFicheCateg">
 			<form id="formFicheCateg" class="form-horizontal" action="serveur/gestionFilms.php" method="POST" onSubmit="return validerNum('numCat');">
-				<h3>Obtenir fiche categorie</h3><br><br>
+				<!--<h3>Obtenir fiche categorie</h3><br><br>-->
 				<input type="hidden" value="ficheCateg" name="operation">
-				<span onClick="rendreInvisible('divFicheCateg')">X</span><br>
+				<nav class="navbar navbar-inverse" style="width:30%;">
+					<div class="container-fluid">
+						<div class="navbar-header">
+						<a class="navbar-brand" href="#">Obtenir fiche categorie</a>
+						</div>
+						<ul class="nav navbar-nav navbar-right">
+						  <li class="active"><a href="#" onClick="rendreInvisible('divFicheCateg')">
+						  <button type="button" class="close" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+							</button>
+						  </a></li>
+						</ul>
+					  </div>
+					</nav>
+				<!--<span onClick="rendreInvisible('divFicheCateg')">X</span><br>-->
 				<div class="form-group">
 				  <label class="control-label col-sm-2" for="numCat">Numero categorie:</label>
 				  <div class="col-sm-10">
@@ -336,9 +427,23 @@ echo "</div>";
 	  <!--les films-->
 	  <div id="divEnreg">
 			<form id="formEnreg" class="form-horizontal" enctype="multipart/form-data" action="serveur/gestionFilms.php" method="POST" onSubmit="return valider();">
-				<h3>Enregistrer film</h3><br><br>
+				<!--<h3>Enregistrer film</h3><br><br>-->
 				<input type="hidden" value="enregistrer" name="operation">
-				<span onClick="rendreInvisible('divEnreg')">X</span><br>				
+				<nav class="navbar navbar-inverse" style="width:30%;">
+					<div class="container-fluid">
+						<div class="navbar-header">
+						<a class="navbar-brand" href="#">Enregistrer film</a>
+						</div>
+						<ul class="nav navbar-nav navbar-right">
+						  <li class="active"><a href="#" onClick="rendreInvisible('divEnreg')">
+						  <button type="button" class="close" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+							</button>
+						  </a></li>
+						</ul>
+					  </div>
+					</nav>
+				<!--<span onClick="rendreInvisible('divEnreg')">X</span><br>-->				
 				<div class="form-group">
 					<label class="control-label col-sm-2" for="titre">Titre:</label>
 					<div class="col-sm-10">
@@ -390,9 +495,23 @@ echo "</div>";
 		</form>
 		<div id="divEnlever">
 			<form id="formEnlever" class="form-horizontal" action="serveur/gestionFilms.php" method="POST" onSubmit="return validerNum('numE');">
-				<h3>Enlever film</h3><br><br>
+				<!--<h3>Enlever film</h3><br><br>-->
 				<input type="hidden" value="enlever" name="operation">
-				<span onClick="rendreInvisible('divEnlever')">X</span><br>
+				<nav class="navbar navbar-inverse" style="width:30%;">
+					<div class="container-fluid">
+						<div class="navbar-header">
+						<a class="navbar-brand" href="#">Enlever film</a>
+						</div>
+						<ul class="nav navbar-nav navbar-right">
+						  <li class="active"><a href="#" onClick="rendreInvisible('divEnlever')">
+						  <button type="button" class="close" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+							</button>
+						  </a></li>
+						</ul>
+					  </div>
+					</nav>
+				<!--<span onClick="rendreInvisible('divEnlever')">X</span><br>-->
 				<div class="form-group">
 				  <label class="control-label col-sm-2" for="numE">Numero:</label>
 				  <div class="col-sm-10">
@@ -409,9 +528,23 @@ echo "</div>";
 		</div>
 		<div id="divFiche">
 			<form id="formFiche" class="form-horizontal" action="serveur/gestionFilms.php" method="POST" onSubmit="return validerNum('numF');">
-				<h3>Obtenir fiche film</h3><br><br>
+				<!--<h3>Obtenir fiche film</h3><br><br>-->
 				<input type="hidden" value="fiche" name="operation">
-				<span onClick="rendreInvisible('divFiche')">X</span><br>
+				<nav class="navbar navbar-inverse" style="width:30%;">
+					<div class="container-fluid">
+						<div class="navbar-header">
+						<a class="navbar-brand" href="#">Obtenir fiche film</a>
+						</div>
+						<ul class="nav navbar-nav navbar-right">
+						  <li class="active"><a href="#" onClick="rendreInvisible('divFiche')">
+						  <button type="button" class="close" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+							</button>
+						  </a></li>
+						</ul>
+					  </div>
+					</nav>
+				<!--<span onClick="rendreInvisible('divFiche')">X</span><br>-->
 				<div class="form-group">
 				  <label class="control-label col-sm-2" for="numF">Numero:</label>
 				  <div class="col-sm-10">
@@ -426,7 +559,23 @@ echo "</div>";
 				</div>
 			</form>
 		</div>
-		<div id="descriptionErreurs"><span onClick="rendreInvisible('descriptionErreurs')">X</span></div>
+		<div id="descriptionErreurs">
+			<nav class="navbar navbar-inverse" style="width:30%;">
+					<div class="container-fluid">
+						<div class="navbar-header">
+						<a class="navbar-brand" href="#"></a>
+						</div>
+						<ul class="nav navbar-nav navbar-right">
+						  <li class="active"><a href="#" onClick="rendreInvisible('descriptionErreurs')">
+						  <button type="button" class="close" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+							</button>
+						  </a></li>
+						</ul>
+					  </div>
+					</nav>
+			<!--<span onClick="rendreInvisible('descriptionErreurs')">X</span>-->
+		</div>
 
 	  
 	  
@@ -442,11 +591,24 @@ echo "</div>";
 				exit();
 			}	
 	$rep="";
+	//$requette = "SELECT film.no_film, film.titre, film.realisateur, film.duree, categorie.nom, film.prix,
+	//film.pochette film.source FROM film, categorie WHERE film.id_categ=categorie.id_categ";
 	$requette = "SELECT * FROM film";
 	try{
 		 $listeFilms=mysqli_query($con,$requette);
 		 while($ligne=mysqli_fetch_object($listeFilms)){
 			$src=($ligne->source);
+			$categ=($ligne->id_categ);
+			switch($categ) {
+				case "1": $categ="Action";break;
+				case "2": $categ="Comedie";break;
+				case "3": $categ="Drama";break;
+				case "4": $categ="Thriller";break;
+				case "5": $categ="Romance";break;
+				case "6": $categ="Horror";break;
+				case "7": $categ="Documentaire";break;
+				default: ;				
+			}
 			$rep.="<div class=\"col-lg-3 col-md-4 col-sm-6 portfolio-item\">";
 			$rep.="<div class=\"card h-100\">";
 			//$rep.="<form action=\"index.php\" method=\"GET\" >\n";
@@ -458,9 +620,12 @@ echo "</div>";
 			$rep.=" <h4 class=\"card-title\">".($ligne->titre)."</h4>";
 			$rep.="<p class=\"card-text\">Realisateur: ".($ligne->realisateur)."</p>";
 			$rep.="<p class=\"card-text\">Duree: ".($ligne->duree)."minutes.</p>";
-			$rep.="<p class=\"card-text\">Categorie: ".($ligne->id_categ)."</p>";
+			$rep.="<p class=\"card-text\">Categorie: ".$categ."</p>";
 			$rep.="<p class=\"card-text\">Prix: ".($ligne->prix)."</p>";
-			$rep.="<p class=\"card-text\"><a href='serveur/gestionMembres.php?no=".($ligne->no_film)."prix=".($ligne->prix)."quantite=1'>Ajouter au panier</a></p>";
+			$rep.="Quantite: <select id=\"quantite\" nom=\"quantite\"><option value='1'>1</option>
+			<option value='2'>2</option><option value='3'>3</option><option value='4'>4</option><option value='5'>5</option></select><br>";
+			$rep.="<p class=\"card-text\"><a href='serveur/gestionMembres.php?no=".($ligne->no_film)."prix=".($ligne->prix)."quantite=	
+			1'>Ajouter au panier</a></p></br>";			
 			$rep.="</div></div></div>";				 
 		}		
 	 mysqli_free_result($listeFilms);
