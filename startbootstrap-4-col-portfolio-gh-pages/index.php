@@ -67,8 +67,98 @@ try{
 			
 			mysqli_close($con);
 	}
-} catch(Exception $e) {}	
+} catch(Exception $e) {}
+
+//-----	
+//-----	
+
+
+/*
+if (isset($_POST['operation']) && !empty($_POST['operation'])) { 
+	$operation=$_POST['operation'];
+	switch($operation) {
+		case "panier": panier(); break;
+		default: ;	
+	}	
+		
+function panier() {
+global $con;  //select
+	$no_film=$prix=$quantite=$total=$duree=1; $nom=$prenom=$titre=$realisateur=""; $totalFinal=0;
+	$courriel=$_SESSION["CourrielUtilConnecte"];
+	$requette = "SELECT id_utilisateur, nom, prenom FROM utilisateur WHERE courriel = ?";   
+	$stmt = $con->prepare($requette);
+	$stmt->bind_param("s", $courriel);
+	$stmt->execute();
+	$result = $stmt->get_result();
+	if(!$ligne = $result->fetch_object()){
+		$_SESSION["messagePourUtilisateur"] =  "Erreur d'acces a votre panier.";
+		mysqli_close($con);
+	}
+	else {
+		$userid=$ligne->id_utilisateur;
+		$nom=$ligne->nom;
+		$prenom=$ligne->prenom;
+	}
+	mysqli_free_result($result);
+    //----
+	
+	$rep="<table class=\"table table-striped table-hover\" style=\"width:60%; margin:auto;\">";
+	$rep.="<tr><th>UTILISATEUR</th><th>FILM</th><th>REALISATEUR</th><th>DUREE</th><th>PRIX</th><th>QUANTITE</th><th>TOTAL</th></tr>";
+	$requette = "SELECT commande.id_utilisateur, commande.no_film, commande.prix, commande.quantite, commande.total 
+	FROM commande, utilisateur WHERE utilisateur.id_utilisateur=commande.id_utilisateur AND commande.id_utilisateur=".$userid;   
+	try{
+		$listeFilms=mysqli_query($con,$requette);
+		while($ligne=mysqli_fetch_object($listeFilms)){
+			$no_film=($ligne->no_film);
+			$prix=($ligne->prix);
+			$quantite=($ligne->quantite);
+			$total=($ligne->total);
+			$totalFinal+=$total;
+			//nom du chaque film:
+				$requette2 = "SELECT titre, realisateur, duree FROM film WHERE no_film = ?";   
+				$stmt = $con->prepare($requette2);
+				$stmt->bind_param("d", $no_film);
+				$stmt->execute();
+				$result = $stmt->get_result();
+				if(!$ligne = $result->fetch_object()){
+					$_SESSION["messagePourUtilisateur"] =  "Erreur d'acces a votre panier.";
+					mysqli_close($con);
+				}
+				else {
+					$titre=$ligne->titre;
+					$realisateur=$ligne->realisateur;
+					$duree=$ligne->duree;
+	$rep.="<tr><td> ".$nom.", ".$prenom." </td><td> ".$titre." </td><td> ".$realisateur." </td><td> ".$duree." </td><td> ".$prix." </td><td> ".$quantite." </td><td> ".$total." </td></tr>";		 
+
+				}
+				mysqli_free_result($result);
 			
+		}
+		$rep.="<tr><td></td><td></td><td></td><td></td><td></td><td></td><td>".$totalFinal."</td></tr>";	
+		
+		mysqli_free_result($listeFilms);
+	 }catch (Exception $e){
+		$_SESSION["messagePourUtilisateur"] = "Probleme pour lister les films dans votre panier";
+	 }finally {
+		$rep.="</table>";
+		// $rep.="</div><div class=\"modal-footer\">";
+        // $rep.="<button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\">Close</button>";
+        // $rep.=" </div> </div> </div> </div></div>";        
+      	$_SESSION["panier"] = $rep;
+	 }
+	
+	 $rep="";
+	//mysqli_free_result($result);
+	//-----
+	
+	//header('Location: panier.php');
+	
+	
+	mysqli_close($con);
+	//redirection();
+	
+}
+*/			
 ?>
 
 <!DOCTYPE html>
@@ -94,7 +184,8 @@ try{
 	
 	<!--<script language="javascript" src="vendor/bootstrap/js/bootstrap.js"></script>-->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-modal/2.2.6/css/bootstrap-modal-bs3patch.css" integrity="sha256-an7lVVGD895TBR8BgUzEUw9dG4+eYrXiGClwunVKGsw=" crossorigin="anonymous" />
+	<!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>-->
 	<link rel="stylesheet" href="css/films.css" type="text/css" />
 
   </head>
@@ -103,6 +194,38 @@ try{
 
     <!-- Navigation -->
      <?php include 'menu.php';?>
+	 
+	 
+	<!-- <button type="button" class="btn btn-sm" data-toggle="modal" data-target="#myModalpanier">Panier</button>-->
+
+  <!-- Modal -->
+  <div class="modal fade" id="myModalpanier" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">LISTE DES FILMS DANS VOTRE PANIER</h4>
+		  <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <div class="modal-body">
+		<a class="nav-link" href="#"><form id="formPanier" action="index.php" method="POST">
+	<input type="hidden" value="panier" name="operation"><input type="submit" value="Afficher mon panier">
+         <?php echo $_SESSION["panier"]; ?> 
+		 
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+   
+	 
+	 
+	 
+	 
 
     <!-- Page Content -->
     <div class="container">

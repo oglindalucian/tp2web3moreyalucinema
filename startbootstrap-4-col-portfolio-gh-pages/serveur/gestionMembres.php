@@ -203,15 +203,15 @@ global $con;  //select
 	mysqli_free_result($result);
     //----
 	
-	$rep="<div class=\"container\">";
-	$rep.="<div class=\"modal fade\" id=\"myModalPanier\" role=\"dialog\">";
-    $rep.="<div class=\"modal-dialog\">";
-    $rep.="<div class=\"modal-content\">";
-    $rep.="<div class=\"modal-header\">";
-    $rep.="<button type=\"button\" class=\"close\" data-dismiss=\"modal\">&times;</button>";
-    $rep.="<h1 class=\"modal-title\">LISTE DES FILMS DANS VOTRE PANIER</h1></div>";
-    $rep.="<div class=\"modal-body\">"; 	
-	$rep.="<table class=\"table table-striped table-hover\" style=\"width:60%; margin:auto;\">";
+	// $rep="<div class=\"container\">";
+	// $rep.="<div class=\"modal fade\" id=\"myModalPanier\" role=\"dialog\">";
+    // $rep.="<div class=\"modal-dialog\">";
+    // $rep.="<div class=\"modal-content\">";
+    // $rep.="<div class=\"modal-header\">";
+    // $rep.="<button type=\"button\" class=\"close\" data-dismiss=\"modal\">&times;</button>";
+    // $rep.="<h1 class=\"modal-title\">LISTE DES FILMS DANS VOTRE PANIER</h1></div>";
+    // $rep.="<div class=\"modal-body\">"; 	
+	$rep="<table class=\"table table-striped table-hover\" style=\"width:60%; margin:auto;\">";
 	$rep.="<tr><th>UTILISATEUR</th><th>FILM</th><th>REALISATEUR</th><th>DUREE</th><th>PRIX</th><th>QUANTITE</th><th>TOTAL</th></tr>";
 	$requette = "SELECT commande.id_utilisateur, commande.no_film, commande.prix, commande.quantite, commande.total 
 	FROM commande, utilisateur WHERE utilisateur.id_utilisateur=commande.id_utilisateur AND commande.id_utilisateur=".$userid;   
@@ -249,11 +249,13 @@ global $con;  //select
 	 }catch (Exception $e){
 		$_SESSION["messagePourUtilisateur"] = "Probleme pour lister les films dans votre panier";
 	 }finally {
-		$rep.="</table></div>";
-		$rep.="<div class=\"modal-footer\">";
-        $rep.="<button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\">Close</button>";
-        $rep.=" </div> </div> </div> </div></div>";        
-      	$_SESSION["panier"] = $rep;
+		$rep.="</table>";
+		// $rep.="</div><div class=\"modal-footer\">";
+        // $rep.="<button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\">Close</button>";
+        // $rep.=" </div> </div> </div> </div></div>";        
+      	
+		//$_SESSION["panier"] = $rep;
+		$_SESSION["messagePourUtilisateur"] = $rep;
 	 }
 	
 	 $rep="";

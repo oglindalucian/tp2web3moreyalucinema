@@ -68,8 +68,9 @@ if($courriel==="") {
 
 if($admin===false && $courriel!=="") {
 	echo "            <li class=\"nav-item\">\n"; 
-	echo "              <a class=\"nav-link\" href=\"#\" ><form id=\"formPanier\" action=\"serveur/gestionMembres.php\" method=\"POST\">
-	<input type=\"hidden\" value=\"panier\" name=\"operation\"><input type=\"submit\" value=\"Panier\"></form></a>\n"; 
+	echo "              <a class=\"nav-link\" href=\"#\"><form id=\"formPanier\" action=\"serveur/gestionMembres.php\" method=\"POST\">
+	<input type=\"hidden\" value=\"panier\" name=\"operation\"><input type=\"submit\" value=\"Panier\"></form></a>\n";
+	//echo "<a class=\"nav-link\" href=\"#\"><button type=\"button\" class=\"btn btn-sm\" data-toggle=\"modal\" data-target=\"#myModalpanier\">Panier</button></a>\n";
 	echo "            </li>\n"; 
 }
 
@@ -85,5 +86,5 @@ echo "        </div>\n";
 echo "      </div>\n"; 
 echo "    </nav>\n";
 echo $msg;
-echo $msgPanier;
+//echo $msgPanier;
 ?>
