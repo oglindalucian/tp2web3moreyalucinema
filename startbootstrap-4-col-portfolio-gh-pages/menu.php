@@ -4,17 +4,20 @@ $connexion = "Connexion";
 $deconnexion = "Déconnexion";
 $admin=false;
 $courriel="";
-$_SESSION["confirmAdmin"]="";
+//$_SESSION["confirmAdmin"]="";
 //if($_SESSION["CourrielUtilConnecte"]!=null)
 	$courriel=$_SESSION["CourrielUtilConnecte"];
-$msg="";
-if($_SESSION["messagePourUtilisateur"]!=null)
+$msg=$msgPanier="";
+//if($_SESSION["messagePourUtilisateur"]!=null)
 	$msg=$_SESSION["messagePourUtilisateur"];
-if($msg!=="") {$msg="<br><h1>".$_SESSION["messagePourUtilisateur"]."</h1>";}
-	if($_SESSION["confirmAdmin"]!=null && $_SESSION["confirmAdmin"]==="true") 
+if($msg!=="") {$msg="<br>".$_SESSION["messagePourUtilisateur"];}
+	if($_SESSION["confirmAdmin"]==="true") 
 		$admin=true;
 if($courriel!=="")
 	$connexion="Profil";
+if($_SESSION["panier"]!=="")
+	$msgPanier=$_SESSION["panier"];
+
 
 echo "<nav class=\"navbar navbar-expand-lg navbar-dark bg-dark fixed-top\">\n"; 
 echo "      <div class=\"container\">\n"; 
@@ -65,7 +68,7 @@ if($courriel==="") {
 
 if($admin===false && $courriel!=="") {
 	echo "            <li class=\"nav-item\">\n"; 
-	echo "              <a class=\"nav-link\" href=\"#\"><form id=\"formPanier\" action=\"serveur/gestionMembres.php\" method=\"POST\">
+	echo "              <a class=\"nav-link\" href=\"#\" ><form id=\"formPanier\" action=\"serveur/gestionMembres.php\" method=\"POST\">
 	<input type=\"hidden\" value=\"panier\" name=\"operation\"><input type=\"submit\" value=\"Panier\"></form></a>\n"; 
 	echo "            </li>\n"; 
 }
@@ -82,4 +85,5 @@ echo "        </div>\n";
 echo "      </div>\n"; 
 echo "    </nav>\n";
 echo $msg;
+echo $msgPanier;
 ?>

@@ -1,23 +1,21 @@
 <?php
 	session_start();
+	
 	$nom=$prenom=$courriel=$mdp=""; $age=16;
-	//$_SESSION["CourrielUtilConnecte"]="";
-	//$_SESSION["NomUtilConnecte"]=$_SESSION["PrenomUtilConnecte"]=$_SESSION["AgeUtilConnecte"]=$_SESSION["MDPUtilConnecte"]=null;
-	//if($_SESSION["NomUtilConnecte"]!==null)
-		//$nom=$_SESSION["NomUtilConnecte"];
-	//if($_SESSION["PrenomUtilConnecte"]!==null)
-		//$prenom=$_SESSION["PrenomUtilConnecte"];
-	//if($_SESSION["AgeUtilConnecte"]!==null)
-		//$age=$_SESSION["AgeUtilConnecte"];
-	//if($_SESSION["CourrielUtilConnecte"]!==null)
-		//$courriel=$_SESSION["CourrielUtilConnecte"];
-	//if($_SESSION["MDPUtilConnecte"]!==null) {
-		//$mdp=$_SESSION["MDPUtilConnecte"];
-		//$confirmation=$_SESSION["MDPUtilConnecte"];;
+	//1
+	if(@$_SESSION["CourrielUtilConnecte"]===null)
+		@$_SESSION["CourrielUtilConnecte"] = "";
+	if(@$_SESSION["confirmAdmin"]===null)
+		@$_SESSION["confirmAdmin"] = "false";
+	if(@$_SESSION["messagePourUtilisateur"]===null)
+		@$_SESSION["messagePourUtilisateur"] = "";
+	if(@$_SESSION["panier"]===null)
+		@$_SESSION["panier"] = "";
+	
 		$con=mysqli_connect("localhost","root","","bdfilms");
 if (mysqli_connect_errno()) {
-		echo "Probleme de connexion au serveur de bd";
-		exit();
+		//echo "Probleme de connexion au serveur de bd";
+		//exit();
 	}
 
 $courriel=$_SESSION["CourrielUtilConnecte"];
@@ -55,7 +53,7 @@ try{
 			//$_SESSION["messagePourUtilisateur"] =  "Courriel inexistent!";
 			//echo "Courriel inexistent!";
 			mysqli_close($con);
-			exit;
+			//exit;
 		}
 		else {
 				//$_SESSION["MDPUtilConnecte"] = $ligne->mdp;
@@ -88,10 +86,15 @@ try{
     <!-- Bootstrap core CSS -->
     <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 	<link href="vendor/bootstrap/css/bootstrap.css" rel="stylesheet">
+	
 
     <!-- Custom styles for this template -->
     <link href="css/4-col-portfolio.css" rel="stylesheet">
 	<script language="javascript" src="js/global.js"></script>
+	
+	<!--<script language="javascript" src="vendor/bootstrap/js/bootstrap.js"></script>-->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
 	<link rel="stylesheet" href="css/films.css" type="text/css" />
 
   </head>

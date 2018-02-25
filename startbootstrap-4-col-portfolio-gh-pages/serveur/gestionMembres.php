@@ -19,45 +19,64 @@ if (isset($_POST['operation']) && !empty($_POST['operation'])) {
 		case "deconnexion": deconnexion(); break;
 		case "profil": profil(); break;
 		case "panier": panier(); break;
-		//case "ajouterPanier": ajouterPanier(); break;
 		default: ;	
 	}
 }
 
-$total=$no_film=$prixFilm=$quantiteFilms=1;
-if (isset($_GET['no']) && !empty($_GET['no'])) 
-		$no_film=test_input($_GET['no']);
-if (isset($_GET['prix']) && !empty($_GET['prix'])) 
-		$prixFilm=test_input($_GET['prix']);
-if (isset($_GET['quantite']) && !empty($_GET['quantite'])) {
-		$quantiteFilms=test_input($_GET['quantite']);
-		$total=$quantiteFilms*$prixFilm;
-}
-		$courriel=$_SESSION["CourrielUtilConnecte"];
-	// //-----
-	 $requete="SELECT * FROM utilisateur WHERE courriel=?";
-	 $stmt = $con->prepare($requete);
-	 $stmt->bind_param("s", $courriel);
-	 $stmt->execute();
-	 $result = $stmt->get_result();
-	 if(!$ligne = $result->fetch_object()){
-		$_SESSION["messagePourUtilisateur"] = "Erreur lors d'ajout au panier.";
-	    mysqli_close($con);
-		// exit;
-	 }
-	 $userid = $ligne->id_utilisateur;
-	 mysqli_free_result($result);
-		
-	$requete="INSERT INTO commande values(0,?,?,?,?,?)";
-	$stmt = $con->prepare($requete);
-	$stmt->bind_param("ddddd", $userid,$no_film,$prixFilm,$quantiteFilms,$total);
-	$stmt->execute();
-	
-	$_SESSION["messagePourUtilisateur"] = "Votre commande a ete ajoute au panier.";
-	mysqli_close($con);	
-	redirection();	
-		
+	$total=$no_film=$prixFilm=$quantiteFilms=1;
+//if(isset($_GET['no']) && !empty($_GET['no']) && isset($_GET['prix']) && !empty($_GET['prix']) && isset($_GET['quantite']) && !empty($_GET['quantite'])) {
 
+	if (isset($_GET['no']) && !empty($_GET['no'])) 
+			$no_film=test_input($_GET['no']);
+	if (isset($_GET['prix']) && !empty($_GET['prix'])) 
+			$prixFilm=test_input($_GET['prix']);
+	if (isset($_GET['quantite']) && !empty($_GET['quantite'])) {
+			$quantiteFilms=test_input($_GET['quantite']);
+			$total=$quantiteFilms*$prixFilm;
+	}
+			$courriel=$_SESSION["CourrielUtilConnecte"];
+		// //-----
+		 $requete="SELECT * FROM utilisateur WHERE courriel=?";
+		 $stmt = $con->prepare($requete);
+		 $stmt->bind_param("s", $courriel);
+		 $stmt->execute();
+		 $result = $stmt->get_result();
+		 if(!$ligne = $result->fetch_object()){
+			$_SESSION["messagePourUtilisateur"] = "";
+			//echo "Erreur lors d'ajout au panier.";
+			mysqli_close($con);
+			// exit;
+		 }
+		 $userid = $ligne->id_utilisateur;
+		 mysqli_free_result($result);
+		 // //-----
+		 $requete="SELECT prix FROM film WHERE no_film=?";
+		 $stmt = $con->prepare($requete);
+		 $stmt->bind_param("i", $no_film);
+		 $stmt->execute();
+		 $result = $stmt->get_result();
+		 if(!$ligne = $result->fetch_object()){
+			$_SESSION["messagePourUtilisateur"] = "";
+			//echo "Erreur lors d'ajout au panier.";
+			mysqli_close($con);
+			// exit;
+		 }
+		 $prix = $ligne->prix;
+		 $total=$quantiteFilms*$prix;
+		 mysqli_free_result($result);
+		//----	
+		$requete="INSERT INTO commande values(0,?,?,?,?,?)";
+		$stmt = $con->prepare($requete);
+		$stmt->bind_param("iidid", $userid,$no_film,$prix,$quantiteFilms,$total);
+		$stmt->execute();
+		
+		$_SESSION["messagePourUtilisateur"] = "Votre commande a ete ajoute au panier.";
+		//echo "Votre commande a ete ajoute au panier.";
+		mysqli_close($con);	
+		redirection();
+//}		
+		
+//1
 function connexion() {
 	if (isset($_POST['courriel']) && !empty($_POST['courriel'])) {
 		$courriel = test_input($_POST['courriel']);
@@ -68,9 +87,9 @@ function connexion() {
 	global $con;
 	$ok=false;
 	$admin = false;
-	$_SESSION["CourrielUtilConnecte"] = "";
-	$_SESSION["confirmAdmin"] = "false";
-	$_SESSION["messagePourUtilisateur"] = "";
+	// $_SESSION["CourrielUtilConnecte"] = "";
+	// $_SESSION["confirmAdmin"] = "false";
+	// $_SESSION["messagePourUtilisateur"] = "";
 	//$leId = 0;
 	$requette = "SELECT courriel, mdp FROM connexion WHERE courriel = ?";   //.$courriel;
 	$stmt = $con->prepare($requette);
@@ -79,9 +98,9 @@ function connexion() {
 	$result = $stmt->get_result();
 	if(!$ligne = $result->fetch_object()){
 		$_SESSION["messagePourUtilisateur"] =  "Courriel inexistent!";
-		echo "Courriel inexistent!";
+		//echo "Courriel inexistent!";
 		mysqli_close($con);
-		exit;
+		//exit;
 	}
 	else {
 		if($ligne->mdp === $mdp) {
@@ -165,26 +184,89 @@ function profil() {
 
 function panier() {
 global $con;  //select
+	$no_film=$prix=$quantite=$total=$duree=1; $nom=$prenom=$titre=$realisateur=""; $totalFinal=0;
+	$courriel=$_SESSION["CourrielUtilConnecte"];
+	$requette = "SELECT id_utilisateur, nom, prenom FROM utilisateur WHERE courriel = ?";   
+	$stmt = $con->prepare($requette);
+	$stmt->bind_param("s", $courriel);
+	$stmt->execute();
+	$result = $stmt->get_result();
+	if(!$ligne = $result->fetch_object()){
+		$_SESSION["messagePourUtilisateur"] =  "Erreur d'acces a votre panier.";
+		mysqli_close($con);
+	}
+	else {
+		$userid=$ligne->id_utilisateur;
+		$nom=$ligne->nom;
+		$prenom=$ligne->prenom;
+	}
+	mysqli_free_result($result);
+    //----
+	
+	$rep="<div class=\"container\">";
+	$rep.="<div class=\"modal fade\" id=\"myModalPanier\" role=\"dialog\">";
+    $rep.="<div class=\"modal-dialog\">";
+    $rep.="<div class=\"modal-content\">";
+    $rep.="<div class=\"modal-header\">";
+    $rep.="<button type=\"button\" class=\"close\" data-dismiss=\"modal\">&times;</button>";
+    $rep.="<h1 class=\"modal-title\">LISTE DES FILMS DANS VOTRE PANIER</h1></div>";
+    $rep.="<div class=\"modal-body\">"; 	
+	$rep.="<table class=\"table table-striped table-hover\" style=\"width:60%; margin:auto;\">";
+	$rep.="<tr><th>UTILISATEUR</th><th>FILM</th><th>REALISATEUR</th><th>DUREE</th><th>PRIX</th><th>QUANTITE</th><th>TOTAL</th></tr>";
+	$requette = "SELECT commande.id_utilisateur, commande.no_film, commande.prix, commande.quantite, commande.total 
+	FROM commande, utilisateur WHERE utilisateur.id_utilisateur=commande.id_utilisateur AND commande.id_utilisateur=".$userid;   
+	try{
+		$listeFilms=mysqli_query($con,$requette);
+		while($ligne=mysqli_fetch_object($listeFilms)){
+			$no_film=($ligne->no_film);
+			$prix=($ligne->prix);
+			$quantite=($ligne->quantite);
+			$total=($ligne->total);
+			$totalFinal+=$total;
+			//nom du chaque film:
+				$requette2 = "SELECT titre, realisateur, duree FROM film WHERE no_film = ?";   
+				$stmt = $con->prepare($requette2);
+				$stmt->bind_param("d", $no_film);
+				$stmt->execute();
+				$result = $stmt->get_result();
+				if(!$ligne = $result->fetch_object()){
+					$_SESSION["messagePourUtilisateur"] =  "Erreur d'acces a votre panier.";
+					mysqli_close($con);
+				}
+				else {
+					$titre=$ligne->titre;
+					$realisateur=$ligne->realisateur;
+					$duree=$ligne->duree;
+	$rep.="<tr><td> ".$nom.", ".$prenom." </td><td> ".$titre." </td><td> ".$realisateur." </td><td> ".$duree." </td><td> ".$prix." </td><td> ".$quantite." </td><td> ".$total." </td></tr>";		 
 
+				}
+				mysqli_free_result($result);
+			
+		}
+		$rep.="<tr><td></td><td></td><td></td><td></td><td></td><td></td><td>".$totalFinal."</td></tr>";	
+		
+		mysqli_free_result($listeFilms);
+	 }catch (Exception $e){
+		$_SESSION["messagePourUtilisateur"] = "Probleme pour lister les films dans votre panier";
+	 }finally {
+		$rep.="</table></div>";
+		$rep.="<div class=\"modal-footer\">";
+        $rep.="<button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\">Close</button>";
+        $rep.=" </div> </div> </div> </div></div>";        
+      	$_SESSION["panier"] = $rep;
+	 }
+	
+	 $rep="";
+	//mysqli_free_result($result);
+	//-----
+	
+	//header('Location: panier.php');
+	
+	
+	mysqli_close($con);
+	redirection();
+	
 }
-
-function ajouterPanier() { //insert
-global $con;
-	
-	//-----	
-	
-	
-	// $requete="INSERT INTO commande values(0,?,?,?,?)";
-	// $stmt = $con->prepare($requete);
-	// $stmt->bind_param("sssd", $courriel,$nom,$prenom,$age);
-	// $stmt->execute();
-	
-	// $_SESSION["messagePourUtilisateur"] = "Votre commande a ete ajoute au panier.";
-	// mysqli_close($con);
-
-
-}	
-
 
 function redirection() {
 	header('Location: ../index.php');
