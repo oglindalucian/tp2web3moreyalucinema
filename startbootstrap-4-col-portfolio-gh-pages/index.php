@@ -594,10 +594,12 @@ echo "</div>";
 	//$requette = "SELECT film.no_film, film.titre, film.realisateur, film.duree, categorie.nom, film.prix,
 	//film.pochette film.source FROM film, categorie WHERE film.id_categ=categorie.id_categ";
 	$requette = "SELECT * FROM film";
+	$i=0;
 	try{
 		 $listeFilms=mysqli_query($con,$requette);
 		 while($ligne=mysqli_fetch_object($listeFilms)){
 			$src=($ligne->source);
+			$i++;
 			$categ=($ligne->id_categ);
 			switch($categ) {
 				case "1": $categ="Action";break;
@@ -622,8 +624,20 @@ echo "</div>";
 			$rep.="<p class=\"card-text\">Duree: ".($ligne->duree)."minutes.</p>";
 			$rep.="<p class=\"card-text\">Categorie: ".$categ."</p>";
 			$rep.="<p class=\"card-text\">Prix: ".($ligne->prix)."</p>";
-			$rep.="Quantite: <select id=\"quantite\" nom=\"quantite\"><option value='1'>1</option>
-			<option value='2'>2</option><option value='3'>3</option><option value='4'>4</option><option value='5'>5</option></select><br>";
+			$rep.="Quantite: <select id=\"".$i."\" nom=\"".$i."\"></select><br><br>";  
+			?>
+			<script>
+			$(document).ready(function(){
+				var listeDeroulante = document.getElementById('<?php echo $i; ?>');
+				for(var i=1; i<=35; i++) {
+					var options = document.createElement("option");
+					options.textContent = i;
+					options.value = i;
+					listeDeroulante.appendChild(options);		
+				}
+			});
+			</script>
+			<?php
 			$rep.="<p class=\"card-text\"><a href='serveur/gestionMembres.php?no=".($ligne->no_film)."prix=".($ligne->prix)."quantite=	
 			1'>Ajouter au panier</a></p></br>";			
 			$rep.="</div></div></div>";				 
